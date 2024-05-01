@@ -1,0 +1,30 @@
+AddDefaultCharset utf-8
+AddCharset utf-8 *
+<IfModule mod_charset.c>
+CharsetSourceEnc utf-8
+CharsetDefault utf-8
+</IfModule>
+ErrorDocument 404 /pages-error-404.html
+
+RewriteEngine on
+
+Options +FollowSymlinks
+
+DirectoryIndex index.php
+
+RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css|ttf|wof|wof2|svg|eot|pdf|php)
+RewriteRule ^(.*)$ index.php [L]
+
+RewriteCond %{HTTP:X-Forwarded-Proto} !^https$ [NC]
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+#RewriteRule ^(.*) https://%1/$1 [R=301,NE,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME}\.php -f 
+RewriteRule ^(.*)$ $1.php
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css|ttf|wof|wof2|svg|eot)
